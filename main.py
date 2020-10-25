@@ -4,10 +4,10 @@ from numpy import version
 
 from numpy.core.multiarray import result_type
 
-def Generate():
+def Generate(size=False, matrix=None):
     vertices = []
 
-    while True:
+    while True and type(size) != int:
         size = input("Please type how many cities to generate: ")
         try:
             size = int(size)
@@ -16,10 +16,13 @@ def Generate():
         finally:
             break
 
+    if matrix is None:
+        matrix = size*10
+
     for i in range(size):
         while True:
-            x = rn.randint(0, size*10)
-            y = rn.randint(0, size*10)
+            x = rn.randint(0, matrix)
+            y = rn.randint(0, matrix)
             if [x,y] not in vertices:
                 vertices.append([x,y])
                 break
@@ -28,8 +31,8 @@ def Generate():
 
     return vertices
         
-def Load():
-    file = open('input.txt', 'r')
+def Load(filename='input.txt'):
+    file = open(filename, 'r')
 
     size = int(file.readline())
     vertices = []

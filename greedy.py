@@ -56,6 +56,7 @@ def main(data, vis):
     return dist
 
 
-cities = np.array([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]], dtype=np.float32)
-visited = set()
-print(main(cities, visited))
+if __name__ == "__main__":
+    cities = np.array([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]], dtype=np.float32)
+    visited = set()
+    print(main(cities, visited))
