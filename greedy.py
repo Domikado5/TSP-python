@@ -43,17 +43,17 @@ def find_min(curr_pnt, data, vis):
 
 
 def main(data, vis):
-    pos = 1
+    pos = 0
     dist = 0
     vis.add(pos)
-    path = [pos]
+    path = [pos+1]
     while len(vis) < len(data):
         to_add, pos = find_min(pos, data, vis)
         dist += to_add
         vis.add(pos)
-        path.append(pos)
+        path.append(pos+1)
     dist += calc_dist(data[0][0], data[0][1], data[pos][0], data[pos][1])
-    path.append(path[0])
+    path.append(path[0]+1)
     return dist, path
 
 
