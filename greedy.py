@@ -53,7 +53,7 @@ def main(data, vis):
         vis.add(pos)
         path.append(pos+1)
     dist += calc_dist(data[0][0], data[0][1], data[pos][0], data[pos][1])
-    path.append(path[0]+1)
+    path.append(path[0])
     return dist, path
 
 
