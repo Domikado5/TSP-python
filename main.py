@@ -1,6 +1,7 @@
 import numpy as np
 import random as rn
 from numpy import version
+import greedy as gd
 
 from numpy.core.multiarray import result_type
 
@@ -31,20 +32,27 @@ def Generate(size=False, matrix=None):
 
     return vertices
         
-def Load(filename='input.txt'):
+def Load(filename='tsp1000.txt'):
     file = open(filename, 'r')
 
     size = int(file.readline())
     vertices = []
 
     for line in file:
-        tmp = line.split(' ')
+        tmp = line.split()
         vertices.append([int(tmp[1]),int(tmp[2])])
 
     vertices = np.array(vertices)
 
     return vertices
 
+def PathToFile(path):
+    file = open("output.txt", 'w')
+
+    for city in path:
+        file.write(str(city)+"\n")
+
+    file.close()
 
 if __name__ == '__main__':
 
@@ -77,6 +85,8 @@ if __name__ == '__main__':
     
     opt = -1
 
+    visited = set()
+
     while opt != 0:
         print("\n\n0. Exit.")
         print("1. Greedy algorithm.")
@@ -90,7 +100,7 @@ if __name__ == '__main__':
             continue
         else:
             if opt == 1:
-                result = 1 # your function here my boi
+                distance, result = gd.main(cities, visited)
             elif opt == 0:
                 exit()
             else:
@@ -98,4 +108,5 @@ if __name__ == '__main__':
                 continue
             break
 
-    print(result)
+    print("Result:\n", result, "\nDistance:\n", distance)
+    PathToFile(result)
