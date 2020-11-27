@@ -48,14 +48,18 @@ def main(data):
     vis = set()
     vis.add(pos)
     path = [pos+1]
+    coordinates = [data[pos]]
     while len(vis) < len(data):
         to_add, pos = find_min(pos, data, vis)
         dist += to_add
         vis.add(pos)
         path.append(pos+1)
+        coordinates.append(data[pos])
     dist += calc_dist(data[0][0], data[0][1], data[pos][0], data[pos][1])
     path.append(path[0])
-    return dist, path
+    coordinates.append(data[0])
+    coordinates = np.array(coordinates)
+    return dist, path, coordinates
 
 
 if __name__ == "__main__":

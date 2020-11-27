@@ -2,6 +2,7 @@ import numpy as np
 import random as rn
 from numpy import version
 import greedy as gd
+import ploter as pl
 
 from numpy.core.multiarray import result_type
 
@@ -96,7 +97,6 @@ if __name__ == '__main__':
     
     opt = -1
 
-    visited = set()
 
     while opt != 0:
         print("\n\n0. Exit.")
@@ -111,7 +111,7 @@ if __name__ == '__main__':
             continue
         else:
             if opt == 1:
-                distance, result = gd.main(cities, visited)
+                distance, result, coordinates = gd.main(cities)
             elif opt == 0:
                 exit()
             else:
@@ -121,3 +121,5 @@ if __name__ == '__main__':
 
     print("Result:\n", result, "\nDistance:\n", distance)
     PathToFile(result)
+    data = np.transpose(coordinates)
+    pl.generateInteractiveGraph(x=data[0], y=data[1])
