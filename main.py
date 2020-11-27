@@ -27,12 +27,23 @@ def Generate(size=False, matrix=None):
             if [x,y] not in vertices:
                 vertices.append([x,y])
                 break
-    
+    Save(size=size, data=vertices)
     vertices = np.array(vertices)
 
     return vertices
-        
-def Load(filename='tsp1000.txt'):
+
+def Save(filename='./data/input.txt', size=0, data=[]):
+    file = open(filename, 'w')
+
+    file.write(str(size) + "\n")
+    i = 1
+    for city in data:
+        file.write("{} {} {}\n".format(i, city[0], city[1]))
+        i += 1
+    
+    file.close()
+
+def Load(filename='./data/input.txt'):
     file = open(filename, 'r')
 
     size = int(file.readline())
