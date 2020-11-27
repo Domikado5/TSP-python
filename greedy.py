@@ -42,9 +42,10 @@ def find_min(curr_pnt, data, vis):
     return tmp_min, tmp_index
 
 
-def main(data, vis):
+def main(data):
     pos = 0
     dist = 0
+    vis = set()
     vis.add(pos)
     path = [pos+1]
     while len(vis) < len(data):
@@ -59,5 +60,4 @@ def main(data, vis):
 
 if __name__ == "__main__":
     cities = np.array([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]], dtype=np.float32)
-    visited = set()
-    print(main(cities, visited))
+    print(main(cities))
