@@ -121,5 +121,4 @@ if __name__ == '__main__':
 
     print("Result:\n", result, "\nDistance:\n", distance)
     PathToFile(result)
-    data = np.transpose(coordinates)
-    pl.generateInteractiveGraph(x=data[0], y=data[1])
+    pl.generateInteractiveGraph(x=coordinates[0], y=coordinates[1])

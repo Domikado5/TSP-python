@@ -3,5 +3,5 @@ import plotly.graph_objects as go
 
 def generateInteractiveGraph(x, y):
     fig = go.Figure(go.Scatter(x=x, y=y))
-    fig.write_html("./file.html")
+    fig.write_html("./static/file.html")
     

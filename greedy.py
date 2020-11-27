@@ -59,6 +59,7 @@ def main(data):
     path.append(path[0])
     coordinates.append(data[0])
     coordinates = np.array(coordinates)
+    coordinates = np.transpose(coordinates)
     return dist, path, coordinates
 
 
