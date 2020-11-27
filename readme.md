@@ -7,5 +7,5 @@
    - ``export FLASK_APP=run.py``
    - ``flask run``
    > If you want to run the application in debug mode type before typing ``flask run``
-   - `export FLASK_ENV=development`
+   - ``export FLASK_ENV=development``
    > Your app should be running on [localhost](http://127.0.0.1:5000/)

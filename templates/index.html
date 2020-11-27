@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title></title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-dark">
+        <a href="#" class="navbar-brand">TSP</a>
+    </nav>
+    <div class="container-fluid">
+        <div class="row h-100">
+            <div class="col-4 col-sm-4 col-md-4 col-lg-3 col-xl-3 bg-secondary text-white">
+                <form action="" class="pt-2">
+                    <div class="form-group">
+                        <label for="dataInput">Data input</label>
+                        <select name="" id="dataInput" class="form-control">
+                            {% for file in dataInput%}
+                                <option value="./data/{{ file }}">{{ file }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="algorithm">Algorithm</label>
+                        <select name="" id="algorithm" class="form-control">
+                            {% for algorithm in algorithms %}
+                                <option value="{{ algorithm[0] }}">{{ algorithm[1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Calculate</button>
+                </form>
+                <hr>
+                <form action="">
+                    <div class="form-group">
+                        <label for="inputSize">Size</label>
+                        <input type="number" class="form-control" id="inputSize" min="0" max="1000" value="0">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Generate</button>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+    <footer class="footer bg-primary w-100" style="position: absolute; bottom: 0; padding: 20px;">
+        <div class="container">
+            Made by me
+        </div>
+    </footer>
+    <script>
+        function containerHeight(){
+            let navHeight = document.querySelector("nav").offsetHeight;
+            let footerHeight = document.querySelector("footer").offsetHeight;
+            let container = document.querySelector("div.container-fluid");
+            container.style.height = window.innerHeight - navHeight - footerHeight + "px";
+        }
+        window.onload = containerHeight;
+
+        window.onresize = containerHeight;
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+</body>
+</html>
