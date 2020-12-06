@@ -15,3 +15,11 @@ import aco
 #     print("N", i, ":", str(after-before) + "s")
 
 # cities = Load(filename='./data/berlin52.txt')
+
+cities = Load(filename='./data/berlin52.txt')
+distance, path, coord = greedy.main(cities)
+print('Greedy:\nDistance:{}\nPath:{}\n'.format(distance, path))
+jar_of_ants = aco.Colony(ant_count=10, cities=cities, steps=100)
+jar_of_ants.solve()
+print(jar_of_ants.get_coordinates())
+print('ACO:\nDistance:{}\nPath:{}\n'.format(jar_of_ants.distance_result, jar_of_ants.path_result))

@@ -11,6 +11,7 @@ def distance_matrix(cities):
         matrix.append(row)
     return np.array(matrix)
 
+
 class Colony:
     def __init__(self, ant_count, min_scalling_factor=0.001, alpha=1.0, beta=3.0, rho=0.1, steps=100, cities=[], pheromone_weight=1.0):
         self.ant_count = ant_count # colony size
@@ -22,9 +23,10 @@ class Colony:
         self.rho = rho
         self.steps = steps
 
-        self.cities = cities
         self.cities_count = len(cities)
+        self.cities = np.arange(self.cities_count)
         self.distance_matrix = distance_matrix(cities)
+        self.__coordinates = cities
 
         self.pheromones = np.full([self.cities_count, self.cities_count], 1.0)
         self.pheromone_weight = pheromone_weight
@@ -32,12 +34,17 @@ class Colony:
         self.path_result = []
         self.distance_result = np.inf
 
+    def get_coordinates(self):
+        return np.transpose(self.__coordinates[self.path_result])
+
+    def get_path(self):
+        return np.array(self.path_result) + 1
+
     def place_pheromone(self, path, distance):
         pheromone_amount = self.pheromone_weight / distance
-        for i in range(self.cities_count):
-            self.pheromones[path[i]][path[(i + 1) % self.cities_count]] = pheromone_amount
+        self.pheromones[path, np.roll(path, -1)] += pheromone_amount
 
-    def solve(self): # solve using max min algorithm
+    def solve(self):
         for step in range(self.steps):
             best_path = []
             best_distance = np.inf
@@ -50,16 +57,17 @@ class Colony:
                 self.distance_result = best_distance
                 self.path_result = best_path
             self.place_pheromone(self.path_result, self.distance_result)
-            max_pheromone = self.pheromone_weight / self.distance_result
+            max_pheromone = self.pheromone_weight / self.distance_result # don't sure about this
             min_pheromone = max_pheromone * self.min_scalling_factor
-            # dalej robimy numpy mnozenier macierzy etc.
-
-
+            self.pheromones *= (1.0 - self.rho)
+            self.pheromones[self.pheromones > max_pheromone] = max_pheromone
+            self.pheromones[self.pheromones < min_pheromone] = min_pheromone
+    
 class Ant:
-    def __init__(self, Colony : Colony):
-        self.Colony = Colony
+    def __init__(self, Colony: Colony):
         self.total_distance = 0.0
         self.path = []
+        self.Colony = Colony
 
     def choose_city(self):
         unvisited_cities = np.setxor1d(self.path, self.Colony.cities)
@@ -78,7 +86,11 @@ class Ant:
                 return unvisited_city
 
     def generate_path(self):
+        self.path = []
+        self.total_distance = 0.0
         self.path.append(rn.randint(0, self.Colony.cities_count -1))
         while self.Colony.cities_count > len(self.path):
             self.path.append(self.choose_city())
             self.total_distance += self.Colony.distance_matrix[self.path[-2]][self.path[-1]]
+        self.path.append(self.path[0])
+        self.total_distance += self.Colony.distance_matrix[self.path[-2]][self.path[-1]]

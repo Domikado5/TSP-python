@@ -5,6 +5,7 @@ import main
 import greedy
 import ploter as pl
 import numpy as np
+import aco
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '123'
@@ -25,7 +26,12 @@ def calculate(json):
             if int(json['alg']) == 0:
                 distance, path, coordinates = greedy.main(cities)
             else:
-                distance, path, coordinates = greedy.main(cities) # change it later to ant colony!!!!!
+                print("Ant colony")
+                ant_colony = aco.Colony(cities=cities, ant_count=10, steps=100)
+                ant_colony.solve()
+                distance = ant_colony.distance_result
+                coordinates = ant_colony.get_coordinates()
+                path = ant_colony.path_result
             main.PathToFile(path)
             pl.generateInteractiveGraph(x=coordinates[0], y=coordinates[1])
             data = {
@@ -42,7 +48,11 @@ def generate(json):
             if int(json['alg']) == 0:
                 distance, path, coordinates = greedy.main(cities)
             else:
-                distance, path, coordinates = greedy.main(cities) # change it later to ant colony!!!!!
+                ant_colony = aco.Colony(cities=cities, ant_count=10, steps=100)
+                ant_colony.solve()
+                distance = ant_colony.distance_result
+                coordinates = ant_colony.get_coordinates()
+                path = ant_colony.path_result
             main.PathToFile(path)
             pl.generateInteractiveGraph(x=coordinates[0], y=coordinates[1])
             data = {
