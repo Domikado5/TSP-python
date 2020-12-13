@@ -59,6 +59,7 @@ void Ant::generate_path(){
     srand(time(NULL));
     int random_city = rand() % (*cities).size();
     this->path.push_back(random_city);
+    this->unvisited_cities.erase(remove(this->unvisited_cities.begin(), this->unvisited_cities.end(), random_city), this->unvisited_cities.end());
 
     while(this->path.size() < (*cities).size()){
         random_city = this->choose_city();
