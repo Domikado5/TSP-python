@@ -39,12 +39,12 @@ vector<vector<vector<double>>> MakeMatrix(vector<vector<int>> data_input){
     for(int i = 0; i < data_input.size(); i++){
         for(int j = 0; j < data_input.size(); j++){
             if(i == j){
-                data_cell.push_back(0.0);
-                data_cell.push_back(0.0);
+                data_cell.push_back(0.0); // distance / weight
+                data_cell.push_back(0.0); // pheromones
             }else{
                 distance = CalculateDistance(data_input[i][1], data_input[i][2], data_input[j][1], data_input[j][2]);
-                data_cell.push_back(distance);
-                data_cell.push_back(1.0);
+                data_cell.push_back(distance); // distance / weight
+                data_cell.push_back(1.0); // pheromones
             }
             data_row.push_back(data_cell);
             data_cell.clear();
