@@ -46,6 +46,7 @@ class Colony:
 
     def solve(self):
         for step in range(self.steps):
+            print(step)
             best_path = []
             best_distance = np.inf
             for ant in self.ants:
@@ -57,7 +58,7 @@ class Colony:
                 self.distance_result = best_distance
                 self.path_result = best_path
             self.place_pheromone(self.path_result, self.distance_result)
-            max_pheromone = self.pheromone_weight / self.distance_result # don't sure about this
+            max_pheromone = self.pheromone_weight / self.distance_result
             min_pheromone = max_pheromone * self.min_scalling_factor
             self.pheromones *= (1.0 - self.rho)
             self.pheromones[self.pheromones > max_pheromone] = max_pheromone
@@ -73,12 +74,13 @@ class Ant:
         unvisited_cities = np.setxor1d(self.path, self.Colony.cities)
         total_unvisited_distance = 0.0
         attractiveness_sum = 0.0
-        for unvisited_city in unvisited_cities:
-            total_unvisited_distance += self.Colony.distance_matrix[self.path[-1]][unvisited_city]
-            attractiveness_sum += self.Colony.pheromones[self.path[-1]][unvisited_city]**self.Colony.alpha *\
-                (total_unvisited_distance / self.Colony.distance_matrix[self.path[-1]][unvisited_city])**self.Colony.beta
-        random_attractiveness = rn.uniform(0.0, attractiveness_sum) # randomizing the attractiveness, which normally would be a probability of choosing a city
+        
+        total_unvisited_distance += self.Colony.distance_matrix[self.path[-1]][unvisited_cities].sum()
+        attractiveness_sum += (self.Colony.pheromones[self.path[-1]][unvisited_cities]**self.Colony.alpha *\
+            (total_unvisited_distance / self.Colony.distance_matrix[self.path[-1]][unvisited_cities])**self.Colony.beta).sum()
+        random_attractiveness = rn.uniform(0.0, attractiveness_sum) # choosing the random attractiveness
         current_attractievness = 0.0
+
         for unvisited_city in unvisited_cities: # searching for the city which have the choosen attractiveness
             current_attractievness += self.Colony.pheromones[self.path[-1]][unvisited_city]**self.Colony.alpha *\
                 (total_unvisited_distance / self.Colony.distance_matrix[self.path[-1]][unvisited_city])**self.Colony.beta
