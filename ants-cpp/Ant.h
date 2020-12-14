@@ -19,6 +19,8 @@ class Ant
         int choose_city();
         void generate_path();
         void check_unvisited(); // return list of unvisited cities
+        vector<int> show_path();
+        double show_distance();
 };
 
 #endif

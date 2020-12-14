@@ -25,6 +25,8 @@ class Colony
             double pheromone_weight);
         void solve();
         void place_pheromones(vector<int> path, double distance);
+        double get_distance();
+        vector<int> get_path();
 };
 
 #endif

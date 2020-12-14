@@ -3,6 +3,10 @@
 #include <fstream>
 #include <string>
 #include <cmath>
+#include <stdlib.h>
+#include <time.h>
+#include "Colony.h"
+#include "Ant.h"
 
 using namespace std;
 
@@ -55,23 +59,35 @@ vector<vector<vector<double>>> MakeMatrix(vector<vector<int>> data_input){
 
     return data_output;
 }
+// program filename ant_count steps alpha beta rho
 
-int main(){
+int main(int argc, char* argv[]){
+    if(argc < 7){
+        cout << "Za malo argumentow\n";
+        return 0;
+    }
     vector<vector<int>> cities; 
     vector<vector<vector<double>>> cities_matrix;
-
+    double min_scalling_factor = 0.001;
+    double pheromone_weight = 1.0;
     cout << "START\n";
 
-    cities = LoadData("./data/berlin52.txt");
+    cities = LoadData(argv[1]);
     cities_matrix = MakeMatrix(cities);
 
-
-    for(int i = 0; i < cities_matrix.size(); i++){
-        for(int j = 0; j < cities_matrix[i].size(); j++){
-            cout << cities_matrix[i][j][0] << " ";
-        }
-        cout << "\n";
-    }
+    Colony aco = Colony(atoi(argv[2]), min_scalling_factor,
+        atof(argv[4]), atof(argv[5]), atof(argv[6]), atoi(argv[3]),
+        &cities, &cities_matrix, pheromone_weight);
+    
+    cout << "Started solving\n";
+    aco.solve();
+    vector<int> path = aco.get_path();
+    double distance = aco.get_distance();
+    cout << "Sciezka: \n";
+    for(int i = 0; i < path.size(); i++){
+        cout << path[i] << " ";
+    } cout << "\n";
+    cout << "Dystans: " << distance << "\n";
 
     return 0;
 }
