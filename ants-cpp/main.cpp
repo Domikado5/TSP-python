@@ -29,6 +29,7 @@ vector<vector<int>> LoadData(string file_name){
             data.push_back(row);
             row.clear();
         }
+        myfile.close();
     }else{
         printf("File cannot be opened.\n");
     }
@@ -63,14 +64,13 @@ vector<vector<vector<double>>> MakeMatrix(vector<vector<int>> data_input){
 
 int main(int argc, char* argv[]){
     if(argc < 7){
-        cout << "Za malo argumentow\n";
+        cout << "Missing arguments\n";
         return 0;
     }
     vector<vector<int>> cities; 
     vector<vector<vector<double>>> cities_matrix;
     double min_scalling_factor = 0.001;
     double pheromone_weight = 1.0;
-    cout << "START\n";
 
     cities = LoadData(argv[1]);
     cities_matrix = MakeMatrix(cities);
@@ -83,11 +83,19 @@ int main(int argc, char* argv[]){
     aco.solve();
     vector<int> path = aco.get_path();
     double distance = aco.get_distance();
-    cout << "Sciezka: \n";
+
+    ofstream myFile("./output.txt");
+    myFile << distance << "\n";
+    myFile << path.size() << "\n";
     for(int i = 0; i < path.size(); i++){
-        cout << path[i] << " ";
-    } cout << "\n";
-    cout << "Dystans: " << distance << "\n";
+        myFile << cities[path[i]][0] << " " << cities[path[i]][1] << " " << cities[path[i]][2] << "\n";
+    }
+    myFile.close();
+    // cout << "Sciezka: \n";
+    // for(int i = 0; i < path.size(); i++){
+    //     cout << path[i] << " ";
+    // } cout << "\n";
+    // cout << "Dystans: " << distance << "\n";
 
     return 0;
 }

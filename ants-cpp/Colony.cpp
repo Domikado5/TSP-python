@@ -29,7 +29,6 @@ void Colony::solve(){
     vector<int> best_path;
     double best_distance, max_pheromone, min_pheromone;
     for (int step = 0; step < steps; step++){
-        cout << step << "\n";
         best_path.clear();
         best_distance = numeric_limits<double>::max();
         for (int ant = 0; ant < this->ant_count; ant++){

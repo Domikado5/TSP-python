@@ -6,6 +6,26 @@ import greedy
 import ploter as pl
 import numpy as np
 import aco
+import subprocess
+import time
+
+def run_aco(filename, ants, steps, alpha, beta, rho):
+    FNULL = open(os.devnull, 'w')
+    args = "aco.exe {} {} {} {} {} {}".format(filename, int(ants), 
+        int(steps), float(alpha), 
+        float(beta), float(rho))
+    subprocess.call(args, shell=False)
+    file = open("./output.txt", "r")
+    distance = float(file.readline())
+    size = int(file.readline())
+    path = []
+    coordinates = []
+    for city in file:
+        tmp = city.split()
+        coordinates.append([int(tmp[1]), int(tmp[2])])
+        path.append(tmp[0])
+    coordinates = np.array(coordinates)
+    return distance, path, np.transpose(coordinates)
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '123'
@@ -24,18 +44,18 @@ def calculate(json):
         if int(json['alg']) in [0, 1]:
             cities = main.Load(filename=json['input'])
             if int(json['alg']) == 0:
+                before = time.time_ns()
                 distance, path, coordinates = greedy.main(cities)
+                after = time.time_ns()
             else:
-                print("Ant colony")
-                ant_colony = aco.Colony(cities=cities, ant_count=10, steps=100)
-                ant_colony.solve()
-                distance = ant_colony.distance_result
-                coordinates = ant_colony.get_coordinates()
-                path = ant_colony.path_result
+                before = time.time_ns()
+                distance, path, coordinates = run_aco(json['input'], json['ants'], json['steps'], json['alpha'], json['beta'], json['rho'])
+                after = time.time_ns()
             main.PathToFile(path)
-            pl.generateInteractiveGraph(x=coordinates[0], y=coordinates[1])
+            pl.generateInteractiveGraph(x=coordinates[0], y=coordinates[1], path=path)
             data = {
-                "distance": distance
+                "distance": distance,
+                "time": after-before
             }
             emit('calculated', data)
 
@@ -46,17 +66,18 @@ def generate(json):
         if int(json['alg']) in [0, 1]:
             cities = main.Generate(size=int(json['size']))
             if int(json['alg']) == 0:
+                before = time.time_ns()
                 distance, path, coordinates = greedy.main(cities)
+                after = time.time_ns()
             else:
-                ant_colony = aco.Colony(cities=cities, ant_count=10, steps=100)
-                ant_colony.solve()
-                distance = ant_colony.distance_result
-                coordinates = ant_colony.get_coordinates()
-                path = ant_colony.path_result
+                before = time.time_ns()
+                distance, path, coordinates = run_aco("./data/input.txt", json['ants'], json['steps'], json['alpha'], json['beta'], json['rho'])
+                after = time.time_ns()
             main.PathToFile(path)
-            pl.generateInteractiveGraph(x=coordinates[0], y=coordinates[1])
+            pl.generateInteractiveGraph(x=coordinates[0], y=coordinates[1], path=path)
             data = {
-                "distance": distance
+                "distance": distance,
+                "time": after-before
             }
             emit('generated', data)
 
