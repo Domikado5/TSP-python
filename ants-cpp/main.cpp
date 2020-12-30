@@ -91,6 +91,7 @@ int main(int argc, char* argv[]){
         myFile << cities[path[i]][0] << " " << cities[path[i]][1] << " " << cities[path[i]][2] << "\n";
     }
     myFile.close();
+    cout << "Finished solving\n";
     // cout << "Sciezka: \n";
     // for(int i = 0; i < path.size(); i++){
     //     cout << path[i] << " ";

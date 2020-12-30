@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <limits>
+#include <chrono>
 
 using namespace std;
 
@@ -28,6 +29,10 @@ Colony::Colony(int ant_count, double min_s_f, double alpha,
 void Colony::solve(){
     vector<int> best_path;
     double best_distance, max_pheromone, min_pheromone;
+    bool stop = 0;
+    auto start = chrono::high_resolution_clock::now();
+    auto finish = chrono::high_resolution_clock::now();
+    chrono::duration<double> elapsed = finish - start;
     for (int step = 0; step < steps; step++){
         best_path.clear();
         best_distance = numeric_limits<double>::max();
@@ -37,10 +42,20 @@ void Colony::solve(){
                 best_distance = (this->ants)[ant].show_distance();
                 best_path = (this->ants)[ant].show_path();
             }
+            finish = chrono::high_resolution_clock::now();
+            elapsed = finish - start;
+            if (elapsed.count() > 300.0){
+                stop = 1;
+                break;
+            }
         }
         if (best_distance < this->distance_result){
             this->distance_result = best_distance;
             this->path_result = best_path;
+        }
+        if(stop){
+            cout<<"TIME!!!\n";
+            break;
         }
         this->place_pheromones(this->path_result, this->distance_result);
         max_pheromone = this->pheromone_weight / this->distance_result;

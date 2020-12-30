@@ -3,13 +3,13 @@
 #include <cmath>
 #include <random>
 #include <algorithm>
+#include <ctime>
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
 
 using namespace std;
 
-mt19937_64 re;
 
 Ant::Ant(double alpha, double beta, vector<vector<int>>* cities, vector<vector<vector<double>>>* cities_matrix){
     this->alpha = alpha;
@@ -43,6 +43,7 @@ int Ant::choose_city(){
             (total_unvisited_distance / pow((*cities_matrix)[last_city][unvisited_city][0], this->beta));
     }
     
+    default_random_engine re(time(0));
     uniform_real_distribution<double> unif(0.0, attractiveness_sum);
     random_attractiveness = unif(re);
 
@@ -60,11 +61,11 @@ void Ant::generate_path(){
     this->path.clear();
     this->check_unvisited();
     this->distance = 0.0;
+    default_random_engine re(time(0));
     uniform_int_distribution<int> distribution(0, (*cities).size()-1);
     int random_city = distribution(re);
     this->path.push_back(random_city);
     this->unvisited_cities.erase(remove(this->unvisited_cities.begin(), this->unvisited_cities.end(), random_city), this->unvisited_cities.end());
-
 
     while(this->path.size() < (*this->cities).size()){
         random_city = this->choose_city();
