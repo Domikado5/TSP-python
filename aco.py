@@ -1,6 +1,7 @@
 from greedy import calc_dist
 import numpy as np
 import random as rn
+import ploter
 
 def distance_matrix(cities):
     matrix = []
@@ -46,7 +47,12 @@ class Colony:
 
     def solve(self):
         for step in range(self.steps):
-            print(step)
+            # if step == 1:
+            #     coord = np.transpose(self.__coordinates[self.path_result])
+            #     ploter.generateInteractiveGraph(coord[0], coord[1], np.array(self.path_result) + 1, file="./results/step1.html")
+            # if step == 50:
+            #     coord = np.transpose(self.__coordinates[self.path_result])
+            #     ploter.generateInteractiveGraph(coord[0], coord[1], np.array(self.path_result) + 1, file="./results/step50.html")
             best_path = []
             best_distance = np.inf
             for ant in self.ants:

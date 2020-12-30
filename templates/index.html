@@ -38,11 +38,11 @@
                 <form action="" id="ACO-form" class="pt-2">
                     <div class="form-group">
                         <label for="">Ants count</label>
-                        <input type="number" class="form-control" id="ants" min="1" max="1000" value="20">
+                        <input type="number" class="form-control" id="ants" min="1" max="1000000" value="20">
                     </div>
                     <div class="form-group">
                         <label for="">Steps count</label>
-                        <input type="number" class="form-control" id="steps" min="1" max="1000" value="100">
+                        <input type="number" class="form-control" id="steps" min="1" max="1000000" value="100">
                     </div>
                     <div class="form-group">
                         <label for="">Alpha</label>
@@ -60,6 +60,10 @@
                 <hr>
                 <h4>Generate data (input.txt)</h4>
                 <form action="">
+                    <div class="form-group">
+                        <label for="filename">Filename</label>
+                        <input type="text" class="form-control" id="filename" value="input">
+                    </div>
                     <div class="form-group">
                         <label for="inputSize">Size</label>
                         <input type="number" class="form-control" id="inputSize" min="0" max="1000" value="0">
@@ -179,6 +183,7 @@
         function generate(){
             let size = document.querySelector("input#inputSize").value;
             let algorithm = document.querySelector("select#algorithm").value;
+            let filename = document.querySelector("input#filename").value;
             if (algorithm == 1){
                 let antsCount = document.querySelector("input#ants").value;
                 let steps = document.querySelector("input#steps").value;
@@ -188,10 +193,11 @@
                 socket.emit('generate', {size: size, 
                     alg: algorithm, ants: antsCount,
                     steps: steps, alpha: alpha,
-                    beta: beta, rho: rho
+                    beta: beta, rho: rho,
+                    filename: filename
                 });
             }else{
-                socket.emit('generate', {size: size, alg: algorithm});
+                socket.emit('generate', {size: size, alg: algorithm, filename: filename});
             }
             timer();
         }
@@ -199,7 +205,6 @@
         socket.on('generated', function(data){
             clearInterval(intervalId);
             let select = document.querySelector("select#dataInput");
-            select.selectedIndex = 3;
             
             console.log(data);
             let result = document.querySelector("h4#distance-result");

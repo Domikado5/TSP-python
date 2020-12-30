@@ -40,7 +40,11 @@ def handle_connect(json):
 @socketio.on('calculate')
 def calculate(json):
     print("Recieved calculate request")
-    if json['input'] in ['./data/berlin52.txt', './data/bier127.txt', './data/input.txt', './data/tsp250.txt', './data/tsp500.txt', './data/tsp1000.txt']:
+    filenames = []
+    for root, dirs, files in os.walk("./data/"):
+        for filename in files:
+            filenames.append("./data/" + filename)
+    if json['input'] in filenames:
         if int(json['alg']) in [0, 1]:
             cities = main.Load(filename=json['input'])
             if int(json['alg']) == 0:
@@ -64,14 +68,14 @@ def generate(json):
     print("Recieved generate request")
     if int(json['size']) >= 0 and int(json['size']) < 1000:
         if int(json['alg']) in [0, 1]:
-            cities = main.Generate(size=int(json['size']))
+            cities = main.Generate(size=int(json['size']), filename=json['filename'])
             if int(json['alg']) == 0:
                 before = time.time_ns()
                 distance, path, coordinates = greedy.main(cities)
                 after = time.time_ns()
             else:
                 before = time.time_ns()
-                distance, path, coordinates = run_aco("./data/input.txt", json['ants'], json['steps'], json['alpha'], json['beta'], json['rho'])
+                distance, path, coordinates = run_aco("./data/"+json['filename']+".txt", json['ants'], json['steps'], json['alpha'], json['beta'], json['rho'])
                 after = time.time_ns()
             main.PathToFile(path)
             pl.generateInteractiveGraph(x=coordinates[0], y=coordinates[1], path=path)

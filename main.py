@@ -6,7 +6,7 @@ import ploter as pl
 
 from numpy.core.multiarray import result_type
 
-def Generate(size=False, matrix=None):
+def Generate(size=False, matrix=None, filename="input"):
     vertices = []
 
     while True and type(size) != int:
@@ -28,7 +28,7 @@ def Generate(size=False, matrix=None):
             if [x,y] not in vertices:
                 vertices.append([x,y])
                 break
-    Save(size=size, data=vertices)
+    Save(size=size, data=vertices, filename="./data/"+filename+".txt")
     vertices = np.array(vertices)
 
     return vertices
