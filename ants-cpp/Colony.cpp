@@ -8,7 +8,7 @@ using namespace std;
 
 Colony::Colony(int ant_count, double min_s_f, double alpha,
             double beta, double rho, int steps,
-            vector<vector<int>>* cities, vector<vector<vector<double>>>* cities_matrix,
+            vector<vector<double>>* cities, vector<vector<vector<double>>>* cities_matrix,
             double pheromone_weight)
 {
     this->ant_count = ant_count;

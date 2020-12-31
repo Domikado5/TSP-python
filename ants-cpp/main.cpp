@@ -14,12 +14,13 @@ double CalculateDistance(int x1, int y1, int x2, int y2){
     return sqrt(pow(x1-x2, 2) + pow(y1-y2, 2));
 }
 
-vector<vector<int>> LoadData(string file_name){
+vector<vector<double>> LoadData(string file_name){
     ifstream myfile(file_name.c_str());
     int size;
-    int city, x, y;
-    vector<vector<int>> data;
-    vector<int> row;
+    int city;
+    double x, y;
+    vector<vector<double>> data;
+    vector<double> row;
     if(myfile.is_open()){
         myfile >> size;
         while(myfile >> city >> x >> y){
@@ -36,7 +37,7 @@ vector<vector<int>> LoadData(string file_name){
     return data;
 }
 
-vector<vector<vector<double>>> MakeMatrix(vector<vector<int>> data_input){
+vector<vector<vector<double>>> MakeMatrix(vector<vector<double>> data_input){
     vector<vector<vector<double>>> data_output;
     vector<vector<double>> data_row;
     vector<double> data_cell;
@@ -67,7 +68,7 @@ int main(int argc, char* argv[]){
         cout << "Missing arguments\n";
         return 0;
     }
-    vector<vector<int>> cities; 
+    vector<vector<double>> cities; 
     vector<vector<vector<double>>> cities_matrix;
     double min_scalling_factor = 0.001;
     double pheromone_weight = 1.0;

@@ -11,7 +11,7 @@
 using namespace std;
 
 
-Ant::Ant(double alpha, double beta, vector<vector<int>>* cities, vector<vector<vector<double>>>* cities_matrix){
+Ant::Ant(double alpha, double beta, vector<vector<double>>* cities, vector<vector<vector<double>>>* cities_matrix){
     this->alpha = alpha;
     this->beta = beta;
     this->cities = cities;

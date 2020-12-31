@@ -6,28 +6,28 @@ import subprocess
 import os
 
 instances = [
-    './known-solutions/bays29.txt',
-    './known-solutions/ch130.txt',
-    './known-solutions/ch150.txt',
-    './known-solutions/gil262.txt',
-    './known-solutions/rat99.txt',
-    './known-solutions/rat195.txt',
-    './known-solutions/rat575.txt',
-    './known-solutions/rat783.txt',
-    './known-solutions/st70.txt',
-    './known-solutions/ulysses22.txt'
+    './known-solutions/berlin52.txt',
+    # './known-solutions/ch130.txt',
+    # './known-solutions/ch150.txt',
+    # './known-solutions/gil262.txt',
+    # './known-solutions/rat99.txt',
+    # './known-solutions/rat195.txt',
+    # './known-solutions/rat575.txt',
+    # './known-solutions/rat783.txt',
+    # './known-solutions/st70.txt',
+    # './known-solutions/tsp225.txt'
 ]
 result_known = [
-    2020,
-    6110,
-    6528,
-    2378,
-    1211,
-    2323,
-    6773,
-    8806,
-    675,
-    7013
+    7542,
+    # 6110,
+    # 6528,
+    # 2378,
+    # 1211,
+    # 2323,
+    # 6773,
+    # 8806,
+    # 675,
+    # 3919
 ]
 result_aco = []
 
@@ -97,7 +97,7 @@ for instance in instances:
     FNULL = open(os.devnull, 'w')
     args = "aco.exe {} {} {} {} {} {}".format(instance, 2000, 
         1000000, 1.0, 
-        12.0, 0.6)
+        12.0, 0.6) # beta 6 10 12 - 0% 1% 5%
     subprocess.call(args, shell=False)
     file = open("./output.txt", "r")
     distance = float(file.readline())
